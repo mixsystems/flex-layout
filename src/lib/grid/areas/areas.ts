@@ -13,7 +13,7 @@ import {
   MediaMarshaller,
   StyleDefinition,
 } from '@angular/flex-layout/core';
-import {coerceBooleanProperty} from '@angular/cdk/coercion';
+import {BooleanInput, coerceBooleanProperty} from '@angular/cdk/coercion';
 
 const DEFAULT_VALUE = 'none';
 const DELIMETER = '|';
@@ -41,7 +41,7 @@ export class GridAreasDirective extends BaseDirective2 {
 
   @Input('gdInline')
   get inline(): boolean { return this._inline; }
-  set inline(val: boolean) { this._inline = coerceBooleanProperty(val); }
+  set inline(val: BooleanInput) { this._inline = coerceBooleanProperty(val); }
   protected _inline = false;
 
   constructor(elRef: ElementRef,
@@ -84,7 +84,7 @@ const selector = `
  * Configures the names of elements within the grid
  * @see https://css-tricks.com/snippets/css/complete-guide-grid/#article-header-id-14
  */
-@Directive({selector, inputs})
+@Directive({selector, inputs, standalone: false})
 export class DefaultGridAreasDirective extends GridAreasDirective {
   protected inputs = inputs;
 }

@@ -16,8 +16,8 @@ import {
 } from '@angular/flex-layout/core';
 import {takeUntil} from 'rxjs/operators';
 
-import {extendObject} from '../../utils/object-extend';
-import {LAYOUT_VALUES, isFlowHorizontal} from '../../utils/layout-validator';
+import {extendObject} from '@angular/flex-layout/_private-utils';
+import {LAYOUT_VALUES, isFlowHorizontal} from '@angular/flex-layout/_private-utils';
 
 export interface LayoutAlignParent {
   layout: string;
@@ -180,7 +180,7 @@ export class LayoutAlignDirective extends BaseDirective2 {
   }
 }
 
-@Directive({selector, inputs})
+@Directive({selector, inputs, standalone: false})
 export class DefaultLayoutAlignDirective extends LayoutAlignDirective {
   protected inputs = inputs;
 }

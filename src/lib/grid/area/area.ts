@@ -59,7 +59,7 @@ const selector = `
  * Configures the name or position of an element within the grid
  * @see https://css-tricks.com/snippets/css/complete-guide-grid/#article-header-id-27
  */
-@Directive({selector, inputs})
+@Directive({selector, inputs, standalone: false})
 export class DefaultGridAreaDirective extends GridAreaDirective {
   protected inputs = inputs;
 }

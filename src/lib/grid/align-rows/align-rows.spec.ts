@@ -5,7 +5,7 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {ComponentFixture, TestBed, inject} from '@angular/core/testing';
 import {
@@ -15,9 +15,9 @@ import {
   StyleUtils,
 } from '@angular/flex-layout/core';
 
-import {extendObject} from '../../utils/object-extend';
-import {customMatchers} from '../../utils/testing/custom-matchers';
-import {makeCreateTestComponent, expectNativeEl} from '../../utils/testing/helpers';
+import {extendObject} from '@angular/flex-layout/_private-utils';
+
+import {makeCreateTestComponent, expectNativeEl} from '../../_private-utils/testing/helpers';
 
 import {GridModule} from '../module';
 import {Platform} from '@angular/cdk/platform';
@@ -44,7 +44,6 @@ describe('align rows directive', () => {
   };
 
   beforeEach(() => {
-    jasmine.addMatchers(customMatchers);
 
     // Configure testbed to prepare services
     TestBed.configureTestingModule({
@@ -369,6 +368,8 @@ describe('align rows directive', () => {
 // *****************************************************************
 
 @Component({
+  standalone: false,
+  changeDetection: ChangeDetectionStrategy.Eager,
   selector: 'test-layout',
   template: `<span>PlaceHolder Template HTML</span>`
 })

@@ -5,7 +5,7 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import {Component, Injectable, OnInit} from '@angular/core';
+import {Component, Injectable, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {ComponentFixture, TestBed, inject} from '@angular/core/testing';
 import {Platform} from '@angular/cdk/platform';
@@ -19,9 +19,9 @@ import {
 } from '@angular/flex-layout/core';
 
 import {FlexLayoutModule} from '../../module';
-import {extendObject} from '../../utils/object-extend';
-import {customMatchers} from '../../utils/testing/custom-matchers';
-import {makeCreateTestComponent, expectNativeEl} from '../../utils/testing/helpers';
+import {extendObject} from '@angular/flex-layout/_private-utils';
+
+import {makeCreateTestComponent, expectNativeEl} from '../../_private-utils/testing/helpers';
 import {FlexModule} from '../module';
 import {LayoutAlignStyleBuilder} from './layout-align';
 
@@ -42,7 +42,6 @@ describe('layout-align directive', () => {
   };
 
   beforeEach(() => {
-    jasmine.addMatchers(customMatchers);
 
     // Configure testbed to prepare services
     TestBed.configureTestingModule({
@@ -479,7 +478,6 @@ describe('layout-align directive', () => {
 
   describe('with custom builder', () => {
     beforeEach(() => {
-      jasmine.addMatchers(customMatchers);
 
       // Configure testbed to prepare services
       TestBed.configureTestingModule({
@@ -527,6 +525,8 @@ export class MockLayoutAlignStyleBuilder extends StyleBuilder {
 // *****************************************************************
 
 @Component({
+  standalone: false,
+  changeDetection: ChangeDetectionStrategy.Eager,
   selector: 'test-layout',
   template: `<span>PlaceHolder Template HTML</span>`
 })

@@ -13,7 +13,7 @@ import {
   StyleDefinition,
   MediaMarshaller,
 } from '@angular/flex-layout/core';
-import {coerceBooleanProperty} from '@angular/cdk/coercion';
+import {BooleanInput, coerceBooleanProperty} from '@angular/cdk/coercion';
 
 const DEFAULT_MAIN = 'start';
 const DEFAULT_CROSS = 'stretch';
@@ -36,7 +36,7 @@ export class GridAlignColumnsDirective extends BaseDirective2 {
 
   @Input('gdInline')
   get inline(): boolean { return this._inline; }
-  set inline(val: boolean) { this._inline = coerceBooleanProperty(val); }
+  set inline(val: BooleanInput) { this._inline = coerceBooleanProperty(val); }
   protected _inline = false;
 
   constructor(elementRef: ElementRef,
@@ -83,7 +83,7 @@ const selector = `
  * @see https://css-tricks.com/snippets/css/complete-guide-grid/#article-header-id-19
  * @see https://css-tricks.com/snippets/css/complete-guide-grid/#article-header-id-21
  */
-@Directive({selector, inputs})
+@Directive({selector, inputs, standalone: false})
 export class DefaultGridAlignColumnsDirective extends GridAlignColumnsDirective {
   protected inputs = inputs;
 }

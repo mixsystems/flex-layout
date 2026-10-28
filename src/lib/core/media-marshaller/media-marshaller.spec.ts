@@ -13,6 +13,8 @@ import {MatchMedia} from '../match-media/match-media';
 import {DEFAULT_CONFIG, LAYOUT_CONFIG} from '../tokens/library-config';
 import {MockMatchMedia, MockMatchMediaProvider} from '../match-media/mock/mock-match-media';
 
+afterEach(() => vi.restoreAllMocks());
+
 describe('media-marshaller', () => {
 
   describe('with layout printing NOT configured', () => {
@@ -24,8 +26,8 @@ describe('media-marshaller', () => {
       TestBed.configureTestingModule({
         providers: [MockMatchMediaProvider]
       });
-      spyOn(MediaMarshaller.prototype, 'onMediaChange').and.callThrough();
-      spyOn(MediaMarshaller.prototype, 'updateStyles').and.callThrough();
+      vi.spyOn(MediaMarshaller.prototype, 'onMediaChange');
+      vi.spyOn(MediaMarshaller.prototype, 'updateStyles');
     });
 
     beforeEach(inject([MatchMedia, MediaMarshaller],
@@ -169,8 +171,8 @@ describe('media-marshaller', () => {
           }
         ]
       });
-      spyOn(MediaMarshaller.prototype, 'onMediaChange').and.callThrough();
-      spyOn(MediaMarshaller.prototype, 'updateStyles').and.callThrough();
+      vi.spyOn(MediaMarshaller.prototype, 'onMediaChange');
+      vi.spyOn(MediaMarshaller.prototype, 'updateStyles');
     });
 
     beforeEach(inject([MatchMedia, MediaMarshaller],
@@ -298,7 +300,7 @@ describe('media-marshaller', () => {
     it('will not propagate "print" events to activate', () => {
       // const smMediaQuery = 'screen and (min-width: 600px) and (max-width: 959px)';
       mediaController.activate('print');
-      expect(mediaMarshaller.onMediaChange).not.toHaveBeenCalledWith({mediaQuery: 'print'});
+      expect(mediaMarshaller.onMediaChange).not.toHaveBeenCalledWith({mediaQuery: 'print'} as any);
     });
 
   });

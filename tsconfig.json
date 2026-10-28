@@ -1,30 +1,32 @@
-// TypeScript config file that matches all source files in the project. This file is read by
-// IDEs and TSLint. For IDEs it ensures that `experimentalDecorator` warnings are not showing up.
 {
+  "compileOnSave": false,
   "compilerOptions": {
-    "outDir": "./dist/packages/all",
+    "outDir": "./dist/out-tsc",
     "experimentalDecorators": true,
-    "module": "es2015",
-    "moduleResolution": "node",
+    "useDefineForClassFields": false,
+    "importHelpers": true,
+    "module": "preserve",
+    "moduleResolution": "bundler",
+    "target": "ES2022",
+    "lib": ["ES2022", "dom"],
+    "types": [],
     "noUnusedParameters": true,
     "noUnusedLocals": true,
     "strictNullChecks": true,
     "strictFunctionTypes": true,
     "strictPropertyInitialization": true,
+    "strictBindCallApply": true,
     "noImplicitAny": true,
     "noImplicitThis": true,
+    "noImplicitReturns": true,
     "skipLibCheck": true,
-    "target": "es2015",
-    "lib": ["es5", "es2015", "dom"],
-    "types": ["jasmine"]
+    "paths": {
+      "@angular/flex-layout": ["./src/lib/public-api.ts"],
+      "@angular/flex-layout/*": ["./src/lib/*/public-api.ts"]
+    }
   },
-  "include": [
-    "src/**/*.ts",
-    "tools/**/*.ts"
-  ],
-  "exclude": [
-    // IDEs should not type-check the different node_modules directories of the different packages.
-    // This would cause the IDEs to be slower and also linters would check the node_modules.
-    "node_modules/"
-  ]
+  "angularCompilerOptions": {
+    "strictTemplates": true,
+    "strictInjectionParameters": true
+  }
 }

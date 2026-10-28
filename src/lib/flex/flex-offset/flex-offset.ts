@@ -16,7 +16,7 @@ import {
 } from '@angular/flex-layout/core';
 import {takeUntil} from 'rxjs/operators';
 
-import {isFlowHorizontal} from '../../utils/layout-validator';
+import {isFlowHorizontal} from '@angular/flex-layout/_private-utils';
 
 export interface FlexOffsetParent {
   layout: string;
@@ -105,7 +105,7 @@ export class FlexOffsetDirective extends BaseDirective2 implements OnChanges {
   }
 }
 
-@Directive({selector, inputs})
+@Directive({selector, inputs, standalone: false})
 export class DefaultFlexOffsetDirective extends FlexOffsetDirective {
   protected inputs = inputs;
 }

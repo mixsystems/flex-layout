@@ -5,7 +5,7 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import {Component} from '@angular/core';
+import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {ComponentFixture, inject, TestBed} from '@angular/core/testing';
 import {CommonModule} from '@angular/common';
 import {
@@ -16,9 +16,9 @@ import {
   StyleUtils,
 } from '@angular/flex-layout/core';
 
-import {customMatchers} from '../../utils/testing/custom-matchers';
+
 import {FlexLayoutModule} from '../../module';
-import {expectNativeEl, makeCreateTestComponent} from '../../utils/testing/helpers';
+import {expectNativeEl, makeCreateTestComponent} from '../../_private-utils/testing/helpers';
 
 describe('flex-order', () => {
   let fixture: ComponentFixture<any>;
@@ -34,7 +34,6 @@ describe('flex-order', () => {
   };
 
   beforeEach(() => {
-    jasmine.addMatchers(customMatchers);
     TestBed.configureTestingModule({
       declarations: [TestOrderComponent],
       imports: [CommonModule, FlexLayoutModule],
@@ -78,6 +77,8 @@ describe('flex-order', () => {
 // *****************************************************************
 
 @Component({
+  standalone: false,
+  changeDetection: ChangeDetectionStrategy.Eager,
   selector: 'test-layout',
   template: `<span>PlaceHolder Template HTML</span>`
 })

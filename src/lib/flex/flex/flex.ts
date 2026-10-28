@@ -19,8 +19,8 @@ import {
 } from '@angular/flex-layout/core';
 import {takeUntil} from 'rxjs/operators';
 
-import {extendObject} from '../../utils/object-extend';
-import {isFlowHorizontal} from '../../utils/layout-validator';
+import {extendObject} from '@angular/flex-layout/_private-utils';
+import {isFlowHorizontal} from '@angular/flex-layout/_private-utils';
 
 interface FlexBuilderParent {
   direction: string;
@@ -292,7 +292,7 @@ export class FlexDirective extends BaseDirective2 implements OnInit {
   }
 }
 
-@Directive({inputs, selector})
+@Directive({inputs, selector, standalone: false})
 export class DefaultFlexDirective extends FlexDirective {
   protected inputs = inputs;
 }

@@ -13,7 +13,7 @@ import {
   MediaMarshaller,
   StyleDefinition,
 } from '@angular/flex-layout/core';
-import {coerceBooleanProperty} from '@angular/cdk/coercion';
+import {BooleanInput, coerceBooleanProperty} from '@angular/cdk/coercion';
 
 const DEFAULT_VALUE = 'initial';
 
@@ -42,7 +42,7 @@ export class GridAutoStyleBuilder extends StyleBuilder {
 export class GridAutoDirective extends BaseDirective2 {
   @Input('gdInline')
   get inline(): boolean { return this._inline; }
-  set inline(val: boolean) { this._inline = coerceBooleanProperty(val); }
+  set inline(val: BooleanInput) { this._inline = coerceBooleanProperty(val); }
   protected _inline = false;
 
   protected DIRECTIVE_KEY = 'grid-auto';
@@ -86,7 +86,7 @@ const selector = `
  * Configures the auto placement algorithm for the grid
  * @see https://css-tricks.com/snippets/css/complete-guide-grid/#article-header-id-23
  */
-@Directive({selector, inputs})
+@Directive({selector, inputs, standalone: false})
 export class DefaultGridAutoDirective extends GridAutoDirective {
   protected inputs = inputs;
 }

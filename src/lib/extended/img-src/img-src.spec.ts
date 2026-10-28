@@ -5,7 +5,7 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import {Component, PLATFORM_ID} from '@angular/core';
+import {Component, PLATFORM_ID, ChangeDetectionStrategy} from '@angular/core';
 import {CommonModule, isPlatformServer} from '@angular/common';
 import {ComponentFixture, TestBed, inject} from '@angular/core/testing';
 import {
@@ -17,10 +17,10 @@ import {
 } from '@angular/flex-layout/core';
 
 import {FlexLayoutModule} from '../../module';
-import {customMatchers} from '../../utils/testing/custom-matchers';
-import {expectEl, makeCreateTestComponent, queryFor} from '../../utils/testing/helpers';
-import {expect} from '../../utils/testing/custom-matchers';
-import {_dom as _} from '../../utils/testing/dom-tools';
+
+import {expectEl, makeCreateTestComponent, queryFor} from '../../_private-utils/testing/helpers';
+import {expect} from '../../_private-utils/testing/custom-matchers';
+import {_dom as _} from '../../_private-utils/testing/dom-tools';
 
 const SRC_URLS = {
   'xs': [
@@ -68,7 +68,6 @@ describe('img-src directive', () => {
   };
 
   beforeEach(() => {
-    jasmine.addMatchers(customMatchers);
 
     // Configure testbed to prepare services
     TestBed.configureTestingModule({
@@ -333,6 +332,8 @@ describe('img-src directive', () => {
 // *****************************************************************
 
 @Component({
+  standalone: false,
+  changeDetection: ChangeDetectionStrategy.Eager,
   selector: 'test-src-api',
   template: ''
 })

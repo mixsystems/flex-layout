@@ -5,14 +5,15 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import {ElementRef, OnChanges, OnDestroy, SimpleChanges} from '@angular/core';
+import {Directive, ElementRef, OnChanges, OnDestroy, SimpleChanges} from '@angular/core';
 import {Observable, Subject} from 'rxjs';
 
 import {StyleDefinition, StyleUtils} from '../style-utils/style-utils';
 import {StyleBuilder} from '../style-builder/style-builder';
 import {MediaMarshaller} from '../media-marshaller/media-marshaller';
-import {buildLayoutCSS} from '../../utils/layout-validator';
+import {buildLayoutCSS} from '@angular/flex-layout/_private-utils';
 
+@Directive()
 export abstract class BaseDirective2 implements OnChanges, OnDestroy {
 
   protected DIRECTIVE_KEY = '';

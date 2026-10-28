@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {TestBed, inject, async} from '@angular/core/testing';
+import {TestBed, inject, waitForAsync} from '@angular/core/testing';
 
 import {BreakPoint} from '../break-point';
 import {DEFAULT_BREAKPOINTS} from './break-points';
@@ -79,11 +79,11 @@ describe('break-point-provider', () => {
     ];
     let bpList: BreakPoint[];
     let accumulator: BreakPoint | null = null;
-    let byAlias = (alias: string): BreakPoint | null => bpList.reduce((pos, it) => {
+    let byAlias = (alias: string): BreakPoint | null => bpList.reduce<BreakPoint | null>((pos, it) => {
       return pos || ((it.alias === alias) ? it : null);
     }, accumulator);
 
-    beforeEach(async (() => {
+    beforeEach(waitForAsync(() => {
       // Configure testbed to prepare services
       TestBed.configureTestingModule({
         imports: [

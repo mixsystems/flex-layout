@@ -5,7 +5,7 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import {Component, Directive, OnInit, PLATFORM_ID} from '@angular/core';
+import {Component, Directive, OnInit, PLATFORM_ID, CUSTOM_ELEMENTS_SCHEMA, ChangeDetectionStrategy} from '@angular/core';
 import {CommonModule, isPlatformBrowser} from '@angular/common';
 import {ComponentFixture, TestBed, inject} from '@angular/core/testing';
 import {
@@ -18,17 +18,16 @@ import {
 } from '@angular/flex-layout/core';
 import {FlexLayoutModule} from '../../module';
 
-import {customMatchers} from '../../utils/testing/custom-matchers';
+
 import {
   makeCreateTestComponent,
   expectNativeEl,
   expectEl,
   queryFor,
-} from '../../utils/testing/helpers';
+} from '../../_private-utils/testing/helpers';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {FormsModule} from '@angular/forms';
 import {MatSelectModule} from '@angular/material/select';
-import {NoopAnimationsModule} from '@angular/platform-browser/animations';
 import {ShowHideDirective} from './show-hide';
 
 describe('show directive', () => {
@@ -52,7 +51,6 @@ describe('show directive', () => {
   };
 
   beforeEach(() => {
-    jasmine.addMatchers(customMatchers);
 
     // Configure testbed to prepare services
     TestBed.configureTestingModule({
@@ -62,11 +60,12 @@ describe('show directive', () => {
         FlexLayoutModule,
         FormsModule,
         MatSelectModule,
-        NoopAnimationsModule,
       ],
       declarations: [
         TestShowComponent,
       ],
+      // `mat-placeholder` no longer exists in @angular/material >= 15; keep it as an unknown element
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
         MockMatchMediaProvider,
         {provide: SERVER_TOKEN, useValue: true}
@@ -327,7 +326,6 @@ describe('show directive', () => {
 
   describe('with custom breakpoints', () => {
     beforeEach(() => {
-      jasmine.addMatchers(customMatchers);
 
       // Configure testbed to prepare services
       TestBed.configureTestingModule({
@@ -384,7 +382,7 @@ const inputs = ['fxShow.sm-md', 'fxHide.sm-md', 'fxShow.sm.lg', 'fxHide.sm.lg'];
 const selector = `[fxShow.sm-md], [fxHide.sm-md], [fxShow.sm.lg], [fxHide.sm.lg]`;
 
 // Used to test custom breakpoint functionality
-@Directive({inputs, selector})
+@Directive({inputs, selector, standalone: false})
 class FxShowHideDirective extends ShowHideDirective {
   protected inputs = inputs;
 }
@@ -395,6 +393,8 @@ class FxShowHideDirective extends ShowHideDirective {
 // *****************************************************************
 
 @Component({
+  standalone: false,
+  changeDetection: ChangeDetectionStrategy.Eager,
   selector: 'test-show-api',
   template: `<span>PlaceHolder Template HTML</span>`
 })

@@ -5,7 +5,7 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import {Component, Injectable, PLATFORM_ID} from '@angular/core';
+import {Component, Injectable, PLATFORM_ID, ChangeDetectionStrategy} from '@angular/core';
 import {CommonModule, isPlatformServer} from '@angular/common';
 import {ComponentFixture, inject, TestBed} from '@angular/core/testing';
 import {DIR_DOCUMENT} from '@angular/cdk/bidi';
@@ -17,13 +17,13 @@ import {
 } from '@angular/flex-layout/core';
 
 import {FlexLayoutModule} from '../../module';
-import {customMatchers} from '../../utils/testing/custom-matchers';
+
 import {
   makeCreateTestComponent,
   queryFor,
   expectEl,
   expectNativeEl,
-} from '../../utils/testing/helpers';
+} from '../../_private-utils/testing/helpers';
 import {FlexModule} from '../module';
 import {FlexOffsetStyleBuilder} from './flex-offset';
 
@@ -43,7 +43,6 @@ describe('flex-offset directive', () => {
   };
 
   beforeEach(() => {
-    jasmine.addMatchers(customMatchers);
     fakeDocument = {body: {}, documentElement: {}};
 
     // Configure testbed to prepare services
@@ -186,7 +185,6 @@ describe('flex-offset directive', () => {
 
   describe('with custom builder', () => {
     beforeEach(() => {
-      jasmine.addMatchers(customMatchers);
 
       // Configure testbed to prepare services
       TestBed.configureTestingModule({
@@ -236,6 +234,8 @@ export class MockFlexOffsetStyleBuilder extends StyleBuilder {
 // *****************************************************************
 
 @Component({
+  standalone: false,
+  changeDetection: ChangeDetectionStrategy.Eager,
   selector: 'test-component-shell',
   template: `<span>PlaceHolder Template HTML</span>`
 })

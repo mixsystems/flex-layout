@@ -5,7 +5,7 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {ComponentFixture, TestBed, inject} from '@angular/core/testing';
 import {
@@ -18,10 +18,10 @@ import {
 } from '@angular/flex-layout/core';
 
 
-import {customMatchers, expect, NgMatchers} from '../../utils/testing/custom-matchers';
+import {expect, NgMatchers} from '../../_private-utils/testing/custom-matchers';
 import {
   makeCreateTestComponent, expectNativeEl, queryFor
-} from '../../utils/testing/helpers';
+} from '../../_private-utils/testing/helpers';
 import {FlexLayoutModule} from '../../module';
 
 
@@ -59,7 +59,6 @@ describe('hide directive', () => {
   };
 
   beforeEach(() => {
-    jasmine.addMatchers(customMatchers);
 
     // Configure testbed to prepare services
     TestBed.configureTestingModule({
@@ -340,6 +339,8 @@ describe('hide directive', () => {
 // *****************************************************************
 
 @Component({
+  standalone: false,
+  changeDetection: ChangeDetectionStrategy.Eager,
   selector: 'test-hide-api',
   template: `<span>PlaceHolder Template HTML</span>`
 })

@@ -5,9 +5,9 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import {Component, Injectable, OnInit, PLATFORM_ID} from '@angular/core';
+import {Component, Injectable, OnInit, PLATFORM_ID, ChangeDetectionStrategy} from '@angular/core';
 import {CommonModule, isPlatformServer} from '@angular/common';
-import {TestBed, ComponentFixture, inject, async} from '@angular/core/testing';
+import {TestBed, ComponentFixture, inject, waitForAsync} from '@angular/core/testing';
 import {DIR_DOCUMENT} from '@angular/cdk/bidi';
 import {
   ɵMatchMedia as MatchMedia,
@@ -19,13 +19,13 @@ import {
 } from '@angular/flex-layout/core';
 
 import {FlexLayoutModule} from '../../module';
-import {customMatchers, expect} from '../../utils/testing/custom-matchers';
+import {expect} from '../../_private-utils/testing/custom-matchers';
 import {
   expectEl,
   expectNativeEl,
   makeCreateTestComponent,
   queryFor,
-} from '../../utils/testing/helpers';
+} from '../../_private-utils/testing/helpers';
 import {FlexModule} from '../module';
 import {LayoutGapStyleBuilder} from './layout-gap';
 
@@ -46,7 +46,6 @@ describe('layout-gap directive', () => {
   };
 
   beforeEach(() => {
-    jasmine.addMatchers(customMatchers);
     fakeDocument = {body: {}, documentElement: {}};
 
     // Configure testbed to prepare services
@@ -149,7 +148,7 @@ describe('layout-gap directive', () => {
       expectEl(nodes[3]).not.toHaveStyle({'margin-right': '0px'}, styler);
     });
 
-    it('should add update gap styles when row items are removed', async(() => {
+    it('should add update gap styles when row items are removed', waitForAsync(() => {
       let template = `
               <div fxLayoutAlign='center center' fxLayoutGap='13px'>
                   <div fxFlex *ngFor='let row of rows'></div>
@@ -181,7 +180,7 @@ describe('layout-gap directive', () => {
 
     }));
 
-    it('should add update gap styles when only 1 row is remaining', async(() => {
+    it('should add update gap styles when only 1 row is remaining', waitForAsync(() => {
       let template = `
               <div fxLayoutAlign='center center' fxLayoutGap='13px'>
                   <div fxFlex *ngFor='let row of rows'></div>
@@ -585,7 +584,6 @@ describe('layout-gap directive', () => {
 
   describe('with custom builder', () => {
     beforeEach(() => {
-      jasmine.addMatchers(customMatchers);
 
       // Configure testbed to prepare services
       TestBed.configureTestingModule({
@@ -631,6 +629,8 @@ export class MockLayoutGapStyleBuilder extends StyleBuilder {
 // Template Component
 // *****************************************************************
 @Component({
+  standalone: false,
+  changeDetection: ChangeDetectionStrategy.Eager,
   selector: 'test-layout',
   template: `<span>PlaceHolder Template HTML</span>`
 })

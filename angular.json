@@ -1,0 +1,50 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "src",
+  "cli": {
+    "analytics": false
+  },
+  "projects": {
+    "flex-layout": {
+      "projectType": "library",
+      "root": "src/lib",
+      "sourceRoot": "src/lib",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:ng-packagr",
+          "options": {
+            "project": "src/lib/ng-package.json",
+            "tsConfig": "src/lib/tsconfig.lib.json"
+          }
+        },
+        "test": {
+          "builder": "@angular/build:unit-test",
+          "options": {
+            "buildTarget": "flex-layout:test-build",
+            "tsConfig": "src/lib/tsconfig.spec.json",
+            "browsers": [
+              "chromiumHeadless"
+            ],
+            "include": [
+              "**/*.spec.ts"
+            ],
+            "setupFiles": [
+              "src/lib/_private-utils/testing/setup.ts"
+            ]
+          }
+        },
+        "test-build": {
+          "builder": "@angular/build:application",
+          "options": {
+            "tsConfig": "src/lib/tsconfig.spec.json",
+            "polyfills": [
+              "zone.js"
+            ],
+            "aot": false
+          }
+        }
+      }
+    }
+  }
+}

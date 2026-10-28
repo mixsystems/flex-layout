@@ -13,7 +13,7 @@ import {
   StyleBuilder,
   StyleDefinition,
 } from '@angular/flex-layout/core';
-import {coerceBooleanProperty} from '@angular/cdk/coercion';
+import {BooleanInput, coerceBooleanProperty} from '@angular/cdk/coercion';
 
 const DEFAULT_VALUE = '0';
 
@@ -37,7 +37,7 @@ export class GridGapDirective extends BaseDirective2 {
 
   @Input('gdInline')
   get inline(): boolean { return this._inline; }
-  set inline(val: boolean) { this._inline = coerceBooleanProperty(val); }
+  set inline(val: BooleanInput) { this._inline = coerceBooleanProperty(val); }
   protected _inline = false;
 
   constructor(elRef: ElementRef,
@@ -81,7 +81,7 @@ const selector = `
  * Syntax: <row gap> [<column-gap>]
  * @see https://css-tricks.com/snippets/css/complete-guide-grid/#article-header-id-17
  */
-@Directive({selector, inputs})
+@Directive({selector, inputs, standalone: false})
 export class DefaultGridGapDirective extends GridGapDirective {
   protected inputs = inputs;
 }

@@ -5,7 +5,7 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import {Component, PLATFORM_ID} from '@angular/core';
+import {Component, PLATFORM_ID, ChangeDetectionStrategy} from '@angular/core';
 import {CommonModule, isPlatformServer} from '@angular/common';
 import {ComponentFixture, TestBed, fakeAsync, flush, inject} from '@angular/core/testing';
 import {MatButtonModule} from '@angular/material/button';
@@ -16,8 +16,8 @@ import {
   ɵMockMatchMediaProvider as MockMatchMediaProvider,
 } from '@angular/flex-layout/core';
 
-import {customMatchers, expect} from '../../utils/testing/custom-matchers';
-import {makeCreateTestComponent, expectNativeEl, queryFor} from '../../utils/testing/helpers';
+import {expect} from '../../_private-utils/testing/custom-matchers';
+import {makeCreateTestComponent, expectNativeEl, queryFor} from '../../_private-utils/testing/helpers';
 import {DefaultClassDirective} from './class';
 
 
@@ -35,7 +35,6 @@ describe('class directive', () => {
   };
 
   beforeEach(() => {
-    jasmine.addMatchers(customMatchers);
 
     // Configure testbed to prepare services
     TestBed.configureTestingModule({
@@ -248,6 +247,7 @@ describe('class directive', () => {
     expectNativeEl(fixture).toHaveCssClass('green');
   });
 
+  // @angular/material >= 15 (MDC) renamed the button host class to `mat-mdc-raised-button`
   it('should work with material buttons', () => {
     createTestComponent(`
           <button mat-raised-button
@@ -262,7 +262,7 @@ describe('class directive', () => {
     let button = queryFor(fixture, '[mat-raised-button]')[0].nativeElement;
 
     if (!isPlatformServer(platformId)) {
-      expect(button).toHaveCssClass('mat-raised-button');
+      expect(button).toHaveCssClass('mat-mdc-raised-button');
     }
     expect(button).toHaveCssClass('btn-xs');
     expect(button).toHaveCssClass('mat-primary');
@@ -272,7 +272,7 @@ describe('class directive', () => {
     button = queryFor(fixture, '[mat-raised-button]')[0].nativeElement;
 
     if (!isPlatformServer(platformId)) {
-      expect(button).toHaveCssClass('mat-raised-button');
+      expect(button).toHaveCssClass('mat-mdc-raised-button');
     }
     expect(button).not.toHaveCssClass('btn-xs');
     expect(button).toHaveCssClass('mat-primary');
@@ -284,6 +284,8 @@ describe('class directive', () => {
 // *****************************************************************
 
 @Component({
+  standalone: false,
+  changeDetection: ChangeDetectionStrategy.Eager,
   selector: 'test-class-api',
   template: `<span>PlaceHolder Template HTML</span>`
 })
@@ -394,7 +396,7 @@ describe('binding to CSS class list', () => {
 
           detectChangesAndExpectClassName('foo');
 
-          delete getComponent().objExpr;
+          delete (getComponent() as any).objExpr;
           detectChangesAndExpectClassName('');
 
           getComponent().objExpr = {'foo': false, 'bar': true};
@@ -531,7 +533,7 @@ describe('binding to CSS class list', () => {
           fixture = createTestComponent(`<div [ngClass]="strExpr"></div>`);
           detectChangesAndExpectClassName('foo');
 
-          delete getComponent().strExpr;
+          delete (getComponent() as any).strExpr;
           detectChangesAndExpectClassName('');
         }));
 
@@ -540,7 +542,7 @@ describe('binding to CSS class list', () => {
           fixture = createTestComponent(`<div class="foo" [ngClass]="strExpr"></div>`);
           detectChangesAndExpectClassName('foo');
 
-          delete getComponent().strExpr;
+          delete (getComponent() as any).strExpr;
           detectChangesAndExpectClassName('foo');
         }));
 
@@ -564,7 +566,7 @@ describe('binding to CSS class list', () => {
           objExpr['foo'] = false;
           detectChangesAndExpectClassName('init bar');
 
-          delete getComponent().objExpr;
+          delete (getComponent() as any).objExpr;
           detectChangesAndExpectClassName('init foo');
         }));
 
@@ -578,7 +580,7 @@ describe('binding to CSS class list', () => {
           objExpr['foo'] = false;
           detectChangesAndExpectClassName(`init bar`);
 
-          delete getComponent().objExpr;
+          delete (getComponent() as any).objExpr;
           detectChangesAndExpectClassName(`init foo`);
         }));
 
@@ -593,7 +595,7 @@ describe('binding to CSS class list', () => {
           objExpr['foo'] = false;
           detectChangesAndExpectClassName(`init bar`);
 
-          delete getComponent().objExpr;
+          delete (getComponent() as any).objExpr;
           detectChangesAndExpectClassName(`init foo`);
         }));
 
@@ -629,13 +631,13 @@ describe('binding to CSS class list', () => {
           cmp.strExpr = 'baz';
           detectChangesAndExpectClassName('init bar baz foo');
 
-          delete cmp.objExpr;
+          delete (cmp as any).objExpr;
           detectChangesAndExpectClassName('init baz');
         }));
    });
  });
 
-@Component({selector: 'test-cmp', template: ''})
+@Component({selector: 'test-cmp', template: '', standalone: false, changeDetection: ChangeDetectionStrategy.Eager})
 class TestComponent {
   condition = true;
   items: any[] = [];

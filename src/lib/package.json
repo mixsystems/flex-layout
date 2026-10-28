@@ -1,11 +1,15 @@
 {
   "name": "@angular/flex-layout",
-  "version": "0.0.0-PLACEHOLDER",
+  "version": "10.0.0-beta.32-ng22.0",
   "description": "Angular Flex-Layout",
-  "main": "./bundles/flex-layout.umd.js",
-  "module": "./esm5/flex-layout.es5.js",
-  "es2015": "./esm2015/flex-layout.js",
-  "typings": "./flex-layout.d.ts",
+  "exports": {
+    "./mq": {
+      "sass": "./_mq.scss"
+    },
+    "./_mq": {
+      "sass": "./_mq.scss"
+    }
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/angular/flex-layout.git"
@@ -23,14 +27,14 @@
   },
   "homepage": "https://github.com/angular/flex-layout#readme",
   "dependencies": {
-    "tslib": "^2.0.0"
+    "tslib": "^2.3.0"
   },
   "peerDependencies": {
-    "@angular/cdk": "^10.0.0-rc.0",
-    "@angular/core": "0.0.0-NG",
-    "@angular/common": "0.0.0-NG",
-    "@angular/platform-browser": "0.0.0-NG",
-    "rxjs": "^6.0.0"
+    "@angular/cdk": "^22.0.0",
+    "@angular/core": "^22.0.0",
+    "@angular/common": "^22.0.0",
+    "@angular/platform-browser": "^22.0.0",
+    "rxjs": "^6.5.3 || ^7.4.0"
   },
   "sideEffects": false
 }

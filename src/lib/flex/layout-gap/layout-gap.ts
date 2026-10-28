@@ -25,7 +25,7 @@ import {
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 
-import {LAYOUT_VALUES} from '../../utils/layout-validator';
+import {LAYOUT_VALUES} from '@angular/flex-layout/_private-utils';
 
 export interface LayoutGapParent {
   directionality: string;
@@ -239,7 +239,7 @@ export class LayoutGapDirective extends BaseDirective2 implements AfterContentIn
   protected observer?: MutationObserver;
 }
 
-@Directive({selector, inputs})
+@Directive({selector, inputs, standalone: false})
 export class DefaultLayoutGapDirective extends LayoutGapDirective {
   protected inputs = inputs;
 }

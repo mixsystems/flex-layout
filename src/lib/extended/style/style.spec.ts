@@ -5,7 +5,7 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import {Component} from '@angular/core';
+import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {ComponentFixture, TestBed, inject} from '@angular/core/testing';
 import {
@@ -18,10 +18,10 @@ import {
 import {DefaultLayoutDirective} from '@angular/flex-layout/flex';
 
 import {DefaultStyleDirective} from './style';
-import {customMatchers} from '../../utils/testing/custom-matchers';
+
 import {
   makeCreateTestComponent, expectNativeEl
-} from '../../utils/testing/helpers';
+} from '../../_private-utils/testing/helpers';
 
 describe('style directive', () => {
   let fixture: ComponentFixture<any>;
@@ -37,7 +37,6 @@ describe('style directive', () => {
   };
 
   beforeEach(() => {
-    jasmine.addMatchers(customMatchers);
 
     // Configure testbed to prepare services
     TestBed.configureTestingModule({
@@ -175,6 +174,8 @@ describe('style directive', () => {
 // *****************************************************************
 
 @Component({
+  standalone: false,
+  changeDetection: ChangeDetectionStrategy.Eager,
   selector: 'test-style-api',
   template: `<span>PlaceHolder Template HTML</span>`
 })

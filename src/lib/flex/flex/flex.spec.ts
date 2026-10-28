@@ -5,7 +5,7 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import {Component, Injectable, PLATFORM_ID, ViewChild} from '@angular/core';
+import {Component, Injectable, PLATFORM_ID, ViewChild, ChangeDetectionStrategy} from '@angular/core';
 import {CommonModule, isPlatformServer} from '@angular/common';
 import {ComponentFixture, TestBed, inject, fakeAsync} from '@angular/core/testing';
 import {Platform} from '@angular/cdk/platform';
@@ -20,13 +20,13 @@ import {
 import {FlexLayoutModule} from '../../module';
 import {DefaultFlexDirective, FlexStyleBuilder} from './flex';
 import {DefaultLayoutDirective} from '../layout/layout';
-import {customMatchers, expect} from '../../utils/testing/custom-matchers';
+import {expect} from '../../_private-utils/testing/custom-matchers';
 import {
   makeCreateTestComponent,
   expectNativeEl,
   queryFor,
   expectEl,
-} from '../../utils/testing/helpers';
+} from '../../_private-utils/testing/helpers';
 
 describe('flex directive', () => {
   let fixture: ComponentFixture<any>;
@@ -53,7 +53,6 @@ describe('flex directive', () => {
   };
 
   beforeEach(() => {
-    jasmine.addMatchers(customMatchers);
 
     TestBed.configureTestingModule({
       imports: [
@@ -1040,7 +1039,7 @@ describe('flex directive', () => {
           <div fxFlex></div>
         </div>
       `);
-      styleBuilder = TestBed.get(FlexStyleBuilder);
+      styleBuilder = TestBed.inject(FlexStyleBuilder);
 
       // Reset the cache because the layout config is only set at startup
       styleBuilder.shouldCache = false;
@@ -1104,6 +1103,8 @@ export class MockFlexStyleBuilder extends StyleBuilder {
 // *****************************************************************
 
 @Component({
+  standalone: false,
+  changeDetection: ChangeDetectionStrategy.Eager,
   selector: 'test-layout',
   template: `<span>PlaceHolder Template HTML</span>`
 })
@@ -1113,6 +1114,8 @@ class TestFlexComponent {
 }
 
 @Component({
+  standalone: false,
+  changeDetection: ChangeDetectionStrategy.Eager,
   selector: 'test-query-with-flex',
   template: `
     <div fxLayout>

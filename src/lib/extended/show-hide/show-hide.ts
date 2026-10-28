@@ -183,7 +183,7 @@ const selector = `
 /**
  * 'show' Layout API directive
  */
-@Directive({selector, inputs})
+@Directive({selector, inputs, standalone: false})
 export class DefaultShowHideDirective extends ShowHideDirective {
   protected inputs = inputs;
 }

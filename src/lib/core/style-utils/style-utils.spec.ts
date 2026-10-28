@@ -5,12 +5,12 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import {Component, PLATFORM_ID} from '@angular/core';
+import {Component, PLATFORM_ID, ChangeDetectionStrategy} from '@angular/core';
 import {CommonModule, isPlatformServer} from '@angular/common';
 import {ComponentFixture, inject, TestBed} from '@angular/core/testing';
 
-import {customMatchers} from '../../utils/testing/custom-matchers';
-import {makeCreateTestComponent, expectNativeEl} from '../../utils/testing/helpers';
+
+import {makeCreateTestComponent, expectNativeEl} from '../../_private-utils/testing/helpers';
 import {StyleUtils} from './style-utils';
 
 describe('styler', () => {
@@ -28,7 +28,6 @@ describe('styler', () => {
   };
 
   beforeEach(() => {
-    jasmine.addMatchers(customMatchers);
 
     // Configure testbed to prepare services
     TestBed.configureTestingModule({
@@ -84,6 +83,8 @@ describe('styler', () => {
 // *****************************************************************
 
 @Component({
+  standalone: false,
+  changeDetection: ChangeDetectionStrategy.Eager,
   selector: 'test-style-utils',
   template: `<span>PlaceHolder Template HTML</span>`
 })

@@ -9,4 +9,4 @@
 import {Version} from '@angular/core';
 
 /** Current version of Angular Flex-Layout. */
-export const VERSION = new Version('0.0.0-PLACEHOLDER');
+export const VERSION = new Version('10.0.0-beta.32-ng22.0');

@@ -14,7 +14,7 @@ import {
   MediaMarshaller,
 } from '@angular/flex-layout/core';
 
-import {buildLayoutCSS} from '../../utils/layout-validator';
+import {buildLayoutCSS} from '@angular/flex-layout/_private-utils';
 
 @Injectable({providedIn: 'root'})
 export class LayoutStyleBuilder extends StyleBuilder {
@@ -59,7 +59,7 @@ export class LayoutDirective extends BaseDirective2 implements OnChanges {
   protected styleCache = layoutCache;
 }
 
-@Directive({selector, inputs})
+@Directive({selector, inputs, standalone: false})
 export class DefaultLayoutDirective extends LayoutDirective {
   protected inputs = inputs;
 }
